@@ -38,7 +38,8 @@ FROM
     powersell_ui.get_user_data
 WHERE
     account_created_at >= NOW() - INTERVAL 7 DAY
-GROUP BY 1 , 3 , 4 , 5;
+GROUP BY 1 , 3 , 4 , 5
+ORDER BY account_created_at desc;
 ");
 
 foreach ($data as $key => $value) {
