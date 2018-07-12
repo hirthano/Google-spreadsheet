@@ -26,16 +26,19 @@ SELECT
     ifnull(user_id,'') user_id,
     ifnull(customer_name,'') customer_name,
     ifnull(account_user_email,'') account_user_email,
-    ifnull(phone,'') phone,
+    ifnull(gud.phone,'') phone,
     ifnull(account_created_at,'') account_created_at,
     ifnull(shop_name_by_customer,'') shop_name_by_customer,
     ifnull(shop_name_back_end,'') shop_name_back_end,
     ifnull(package_start,'') package_start,
     ifnull(package_end,'') package_end,
     ifnull(package_name,'') package_name,
-    ifnull(shop_created_at,'') shop_created_at
+    ifnull(shop_created_at,'') shop_created_at,
+    case when au.metadata like '%boosting%' then 'Dang ky PowerUp' else '' end boosting
 FROM
-    powersell_ui.get_user_data
+    powersell_ui.get_user_data  gud
+LEFT JOIN
+	powersell_biz.acl_user au ON gud.user_id = au.id
 WHERE
     account_created_at >= NOW() - INTERVAL 7 DAY
 GROUP BY 1 , 3 , 4 , 5
